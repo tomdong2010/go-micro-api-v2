@@ -1,12 +1,11 @@
 package cmn
 
 import (
-	"errors"
 	. "github.com/micro/go-micro/config"
 	"github.com/micro/go-micro/config/source/etcd"
 	"github.com/micro/go-micro/config/source/file"
-	"github.com/micro/go-micro/server"
-	"github.com/micro/go-plugins/config/source/consul"
+	"strings"
+	"time"
 )
 
 var conf *config
@@ -17,34 +16,19 @@ type config struct {
 }
 
 // 初始化公共配置
-func InitConfig(service server.Server) error {
+func InitConfig(etcd_addr string) error {
 	var err error
 
 	conf = &config{NewConfig()}
 
-	registryName := service.Options().Registry.String()
-	registryAddr := service.Options().Registry.Options().Addrs
-
-	// 判断注册地址是否为空
-	if registryName != "mdns" && len(registryAddr) == 0 {
-		return errors.New("config path is required.")
-	}
-
-	// 目前支持etcd、consul和file三种
-	switch registryName {
-	case "etcd":
+	if etcd_addr != "" {
 		err = conf.MicroConf.Load(etcd.NewSource(
-			etcd.WithAddress(registryAddr...),
+			etcd.WithAddress(strings.Split(etcd_addr, ",")...),
 			etcd.WithPrefix(APP_CONF_PREFIX+"/common"),
 			etcd.StripPrefix(true),
+			etcd.WithDialTimeout(10 * time.Second),
 		))
-	case "consul":
-		err = conf.MicroConf.Load(consul.NewSource(
-			consul.WithAddress(registryAddr[0]),
-			consul.WithPrefix(APP_CONF_PREFIX+"/common"),
-			consul.StripPrefix(true),
-		))
-	default:
+	} else {
 		err = conf.MicroConf.Load(file.NewSource(file.WithPath("common.yaml")))
 	}
 
