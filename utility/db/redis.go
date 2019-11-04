@@ -3,24 +3,19 @@ package db
 import (
 	"errors"
 	"github.com/gomodule/redigo/redis"
-	"demo/utility/helper"
 	"time"
 )
 
 var redisPool *redis.Pool
 
 // 初始化redis
-func InitRedis(conf map[string]string) (err error) {
-	if !helper.MapSKeysExists(conf, []string{"addr", "max_idle", "max_open", "db"}) {
-		return errors.New("redis config is missing")
-	}
-
+func InitRedis(addr string, db, maxIdle, maxOpen int) (err error) {
 	redisPool = &redis.Pool{
-		MaxIdle:     helper.StrToInt(conf["max_idle"], 1),
-		MaxActive:   helper.StrToInt(conf["max_open"], 10),
+		MaxIdle:     maxIdle,
+		MaxActive:   maxOpen,
 		IdleTimeout: time.Duration(30) * time.Minute,
 		Dial: func() (redis.Conn, error) {
-			return redis.Dial("tcp", conf["addr"], redis.DialDatabase(helper.StrToInt(conf["db"], 0)))
+			return redis.Dial("tcp", addr, redis.DialDatabase(db))
 		},
 	}
 

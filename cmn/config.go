@@ -35,15 +35,15 @@ func InitConfig(service server.Server) error {
 	case "etcd":
 		err = conf.MicroConf.Load(etcd.NewSource(
 			etcd.WithAddress(registryAddr...),
-			etcd.WithPrefix(APP_CONF_PREFIX + "/common"),
+			etcd.WithPrefix(APP_CONF_PREFIX+"/common"),
 			etcd.StripPrefix(true),
-			))
+		))
 	case "consul":
 		err = conf.MicroConf.Load(consul.NewSource(
 			consul.WithAddress(registryAddr[0]),
-			consul.WithPrefix(APP_CONF_PREFIX + "/common"),
+			consul.WithPrefix(APP_CONF_PREFIX+"/common"),
 			consul.StripPrefix(true),
-			))
+		))
 	default:
 		err = conf.MicroConf.Load(file.NewSource(file.WithPath("common.yaml")))
 	}
@@ -57,11 +57,20 @@ func GetEnv() string {
 }
 
 // 获取mysql配置
-func GetMysqlConfig() map[string]string {
-	return conf.MicroConf.Get("mysql").StringMap(nil)
+func GetMysqlConfig() (string, int, int) {
+	dsn := conf.MicroConf.Get("mysql", "dsn").String("")
+	maxIdle := conf.MicroConf.Get("mysql", "max_idle").Int(1)
+	maxOpen := conf.MicroConf.Get("mysql", "max_open").Int(10)
+
+	return dsn, maxIdle, maxOpen
 }
 
 // 获取redis配置
-func GetRedisConfig() map[string]string {
-	return conf.MicroConf.Get("redis").StringMap(nil)
+func GetRedisConfig() (string, int, int, int) {
+	addr := conf.MicroConf.Get("redis", "addr").String("")
+	db := conf.MicroConf.Get("redis", "db").Int(0)
+	maxIdle := conf.MicroConf.Get("redis", "max_idle").Int(1)
+	maxOpen := conf.MicroConf.Get("redis", "max_open").Int(10)
+
+	return addr, db, maxIdle, maxOpen
 }
