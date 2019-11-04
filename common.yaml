@@ -1,0 +1,12 @@
+env: dev
+
+mysql:
+  dsn: root:root@tcp(192.168.60.129:3306)/godb?charset=utf8&parseTime=true&loc=Local
+  max_idle: 1
+  max_open: 10
+
+redis:
+  addr: "192.168.60.129:6379"
+  db: 1
+  max_idle: 1
+  max_open: 10

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package proto;
+
+import "api.proto";
+
+// 账号登录
+service Login {
+    rpc Phone(Request) returns (Response) {}
+    rpc Email(Request) returns (Response) {}
+    rpc Username(Request) returns (Response) {}
+    rpc Facebook(Request) returns (Response) {}
+    rpc Google(Request) returns (Response) {}
+    rpc Twitter(Request) returns (Response) {}
+}
+
+// 用户退出
+service User {
+    rpc Logout(Request) returns (Response) {}
+}

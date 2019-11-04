@@ -1,2 +1,1 @@
-# go-micro-api
-go-micro demo 示例
+# 使用说明
