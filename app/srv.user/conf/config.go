@@ -61,7 +61,3 @@ func InitConfig(service server.Server, appName string) error {
 func GetLogPath() string {
 	return conf.MicroConf.Get("log_path").String(conf.AppName + ".%Y%m%d.log")
 }
-
-func GetUserPrefix() string {
-	return conf.MicroConf.Get("user_prefix").String("default_prefix")
-}

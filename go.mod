@@ -8,6 +8,7 @@ require (
 	github.com/go-playground/universal-translator v0.16.0
 	github.com/golang/protobuf v1.3.2
 	github.com/gomodule/redigo v2.0.0+incompatible
+	github.com/google/uuid v1.1.1
 	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
 	github.com/jinzhu/gorm v1.9.11
 	github.com/lestrrat-go/file-rotatelogs v2.2.0+incompatible

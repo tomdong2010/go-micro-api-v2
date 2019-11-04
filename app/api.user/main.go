@@ -9,9 +9,9 @@ import (
 	"demo/app/api.user/conf"
 	"demo/app/api.user/handler"
 	"demo/cmn"
-	"demo/mdw"
 	"demo/proto"
 	"demo/utility/db"
+	"demo/wrap"
 	"fmt"
 	"github.com/lestrrat-go/file-rotatelogs"
 	"github.com/micro/go-micro"
@@ -22,7 +22,8 @@ import (
 func main() {
 	service := micro.NewService(
 		micro.Name(cmn.APP_NAME_PREFIX + cmn.APP_API_USER),
-		micro.WrapHandler(mdw.LogMdw),
+		micro.WrapHandler(wrap.RecoverWrapHandler),
+		micro.WrapHandler(wrap.AccessWrapHandler),
 	)
 
 	service.Init( )

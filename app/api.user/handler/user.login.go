@@ -10,7 +10,6 @@ import (
 	"demo/proto"
 	"demo/resp"
 	"github.com/micro/go-micro/client"
-	"github.com/micro/go-micro/metadata"
 	"net/http"
 )
 
@@ -24,9 +23,7 @@ func (l *Login) Phone(ctx context.Context, req *proto.Request, rsp *proto.Respon
 
 func (l *Login) Email(ctx context.Context, req *proto.Request, rsp *proto.Response) error {
 	greeter := proto.NewGreeterService("demo.srv.user", client.DefaultClient)
-	res, _ := greeter.Hello(metadata.NewContext(ctx, map[string]string{
-		"age": "10",
-	}), &proto.UserServerRequest{
+	res, _ := greeter.Hello(ctx, &proto.UserServerRequest{
 		Name: "wangy",
 	})
 
