@@ -60,7 +60,7 @@ func AccessMdwHandler() iris.Handler {
 				"queries":  helper.RequestQueries(ctx),
 				"reqBody":  helper.RequestBody(ctx),
 				"duration": time.Now().Sub(begin).Milliseconds(),
-			}).Info(helper.RequestBody(ctx))
+			}).Info(string(ctx.Recorder().Body()))
 		}()
 
 		ctx.Next()
