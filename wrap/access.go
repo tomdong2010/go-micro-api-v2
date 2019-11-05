@@ -2,96 +2,67 @@ package wrap
 
 import (
 	"context"
-	"demo/proto"
+	"demo/utility/helper"
 	"github.com/google/uuid"
+	"github.com/kataras/iris"
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/server"
 	"github.com/sirupsen/logrus"
 	"time"
 )
 
-// 记录请求日志
+// micro微服务记录请求日志
 func AccessWrapHandler(fn server.HandlerFunc) server.HandlerFunc {
 	return func(ctx context.Context, req server.Request, rsp interface{}) error {
-		var (
-			reqId    string
-			ipAddr   string
-			duration int64
-			method   string
-			path     string
-			header   interface{}
-			queries  interface{}
-			body     interface{}
-			result   interface{}
-		)
-
 		begin := time.Now()
 
 		meta, _ := metadata.FromContext(ctx)
 
-		if v, ok := meta["Remote"]; ok {
-			ipAddr = v
-		} else {
-			ipAddr = "0.0.0.0"
-		}
-
-		if v, ok := meta["Request-Id"]; ok {
-			reqId = v
-		} else {
-			reqId = uuid.New().String()
-		}
-
-		if r, ok := req.Body().(*proto.Request); ok {
-			method = r.Method
-			path = r.Path
-			queries = decodePair(r.Get)
-			header = decodePair(r.Header)
-
-			if v, ok := r.Header["Content-Type"]; ok && v.Values[0] == "application/json" {
-				body = r.Body
-			}
-		} else {
-			method = "RPC"
-			path = meta["Micro-Method"]
-			queries = nil
-			header = meta
-			body = req.Body()
-		}
-
 		defer func() {
-			duration = time.Now().Sub(begin).Milliseconds()
-
-			if w, ok := rsp.(*proto.Response); ok {
-				result = w.Body
-			} else {
-				result = rsp
-			}
-
 			logrus.WithFields(logrus.Fields{
-				"ip":       ipAddr,
-				"method":   method,
-				"path":     path,
-				"reqId":    reqId,
-				"header":   header,
-				"queries":  queries,
-				"reqBody":  body,
-			}).Info(result)
+				"ip":       "",
+				"method":   "RPC",
+				"path":     meta["Micro-Service"] + "." + meta["Micro-Method"],
+				"reqId":    meta["Request-Id"],
+				"header":   meta,
+				"queries":  "",
+				"reqBody":  req.Body(),
+				"duration": time.Now().Sub(begin).Milliseconds(),
+			}).Info(rsp)
 		}()
-
-		ctx = metadata.NewContext(ctx, map[string]string{
-			"Request-Id": reqId,
-		})
 
 		return fn(ctx, req, rsp)
 	}
 }
 
-func decodePair(m map[string]*proto.Pair) map[string]string {
-	var r = make(map[string]string, len(m))
+// iris接口记录请求日志
+func AccessMdwHandler() iris.Handler {
+	return func(ctx iris.Context) {
+		begin := time.Now()
 
-	for k, v := range m {
-		r[k] = v.GetValues()[0]
+		if reqId := ctx.GetHeader("Request-Id"); reqId == "" {
+			ctx.Values().Set("Request-Id", uuid.New())
+		} else {
+			ctx.Values().Set("Request-Id", reqId)
+		}
+
+		ctx.Values().Set("lang", ctx.URLParamDefault("lang", "en"))
+
+		ctx.Record()
+
+		defer func() {
+			logrus.WithFields(logrus.Fields{
+				"ip":       ctx.RemoteAddr(),
+				"method":   ctx.Method(),
+				"path":     ctx.Path(),
+				"reqId":    ctx.Values().GetString("Request-Id"),
+				"header":   helper.RequestHeader(ctx),
+				"queries":  helper.RequestQueries(ctx),
+				"reqBody":  helper.RequestBody(ctx),
+				"duration": time.Now().Sub(begin).Milliseconds(),
+			}).Info(helper.RequestBody(ctx))
+		}()
+
+		ctx.Next()
 	}
-
-	return r
 }
