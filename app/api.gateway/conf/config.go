@@ -6,7 +6,6 @@
 package conf
 
 import (
-	"demo/cmn"
 	. "github.com/micro/go-micro/config"
 	"github.com/micro/go-micro/config/source/etcd"
 	"github.com/micro/go-micro/config/source/file"
@@ -31,7 +30,7 @@ func InitConfig(etcd_addr, appName string) error {
 	if etcd_addr != "" {
 		err = conf.MicroConf.Load(etcd.NewSource(
 			etcd.WithAddress(strings.Split(etcd_addr, ",")...),
-			etcd.WithPrefix(cmn.APP_CONF_PREFIX+"/"+appName),
+			etcd.WithPrefix(appName),
 			etcd.StripPrefix(true),
 			etcd.WithDialTimeout(10 * time.Second),
 		))
@@ -43,5 +42,5 @@ func InitConfig(etcd_addr, appName string) error {
 }
 
 func GetLogPath() string {
-	return conf.MicroConf.Get("log_path").String(conf.AppName + ".%Y%m%d.log")
+	return conf.MicroConf.Get("log", "path").String(conf.AppName + ".%Y%m%d.log")
 }

@@ -6,27 +6,27 @@
 package main
 
 import (
-	"demo/app/srv.user/conf"
-	"demo/app/srv.user/handler"
-	"demo/app/srv.user/service"
+	"demo/app/api.gateway/conf"
+	"demo/app/api.gateway/handler"
+	"demo/app/api.gateway/service"
 	common "demo/conf"
-	"demo/proto/srv.user"
 	"demo/utility/db"
 	"demo/utility/helper"
 	"demo/utility/log"
 	"github.com/micro/cli"
 	"github.com/micro/go-micro"
+	"github.com/valyala/fasthttp"
 )
 
-var appName = common.APP_SRV_USER
+var serverAddress string
+var appName = common.APP_API_GATEWAY
 
 func main() {
 	defer uninit()
 	service.InitService(appName, micro.Action(initialize))
 
-	_ = proto.RegisterLoginHandler(service.Server(), new(handler.LoginServer))
-
-	helper.CheckErr("ServerRun", service.Run(), true)
+	h := fasthttp.CompressHandler(handler.Handler)
+	helper.CheckErr("FastHttp Start", fasthttp.ListenAndServe(serverAddress, h), true)
 }
 
 func initialize(ctx *cli.Context) {
@@ -35,6 +35,11 @@ func initialize(ctx *cli.Context) {
 
 	// 初始化app配置文件
 	helper.CheckErr("InitAppConfig", conf.InitConfig(ctx.String("etcd_addr"), appName), true)
+
+	// 获取接口的监听地址
+	if serverAddress = ctx.String("server_address"); serverAddress == "" {
+		serverAddress = "0.0.0.0:8080"
+	}
 
 	// 初始化日志
 	helper.CheckErr("InitZapLog", log.InitZapLogger(conf.GetLogPath()), true)

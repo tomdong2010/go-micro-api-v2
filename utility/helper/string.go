@@ -1,16 +1,16 @@
 package helper
 
 import (
+	"bytes"
 	"crypto/hmac"
 	"crypto/md5"
 	"crypto/sha1"
 	"crypto/sha256"
+	"encoding/binary"
 	"encoding/hex"
 	"io"
 	"math/rand"
 	"os"
-	"strconv"
-	"strings"
 	"time"
 )
 
@@ -26,7 +26,7 @@ func MD5FILE(filepath string) string {
 	defer f.Close()
 
 	_md5 := md5.New()
-	io.Copy(_md5, f)
+	_, _ = io.Copy(_md5, f)
 	return hex.EncodeToString(_md5.Sum([]byte(nil)))
 }
 
@@ -51,49 +51,15 @@ func HMAC(key, data string) string {
 	return hex.EncodeToString(_hmac.Sum([]byte(nil)))
 }
 
-func EmptyValue(v interface{}) bool{
-	switch t := v.(type) {
-	case string:
-		return t == ""
-	case int:
-		return t == 0
-	case int64:
-		return t == 0
-	default:
-		return true
-	}
-}
-
-func StrToInt(s string, def int) int{
-	i, err := strconv.Atoi(s)
-
-	if err != nil {
-		return def
-	}
-
-	return i
-}
-
-// 合并字符串
-func StrJoin(sep string, e... string) string {
-	return strings.Join(e, sep)
-}
-
-func RandNumber(width int) string {
+// 生成随机数字型字符串
+func RandNumber(width int) []byte {
 	rand.Seed(time.Now().UnixNano())
 
-	var res string
+	var buffer = bytes.NewBuffer(make([]byte, 0, width))
+
 	for i := 0; i < width; i++ {
-		res += strconv.Itoa(rand.Intn(10))
-	}
-	return res
-}
-
-// 统一切掉账号的0
-func RepairPhone(cc, phone string) (string, string) {
-	if cc != "" && cc != "241" {
-		return cc, strings.TrimLeft(phone, "0")
+		_ = binary.Write(buffer, binary.BigEndian, rand.Intn(10))
 	}
 
-	return cc, phone
+	return buffer.Bytes()
 }

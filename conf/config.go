@@ -1,4 +1,4 @@
-package cmn
+package conf
 
 import (
 	. "github.com/micro/go-micro/config"
@@ -37,7 +37,7 @@ func InitConfig(etcd_addr string) error {
 
 // 获取环境变量
 func GetEnv() string {
-	return conf.MicroConf.Get("env").String(ENV_DEV)
+	return conf.MicroConf.Get("app", "env").String(ENV_DEV)
 }
 
 // 获取mysql配置

@@ -1,10 +1,11 @@
-package resp
+package http
 
 import (
-	"fmt"
-	"github.com/sirupsen/logrus"
-	"path/filepath"
 	"demo/utility/helper"
+	"demo/utility/log"
+	"fmt"
+	"go.uber.org/zap"
+	"path/filepath"
 	"runtime"
 	"strconv"
 	"strings"
@@ -68,7 +69,7 @@ func newResponse(code int, msg string, options ...interface{}) Response {
 		}
 
 		if errs != "" {
-			logrus.WithField("response", resp.String()).Error(errs)
+			log.Error(resp.String(), zap.String("error", errs))
 		}
 	}
 

@@ -3,13 +3,16 @@
  * User: yan.wang5<yan.wang5@transsion.com>
  * Date: 2019/11/3
  */
-package resp
+package http
 
 const (
 	RESP_SUCCESS      = 1000
 	RESP_ERROR_SYSTEM = 1001
 	RESP_ERROR_PARAM  = 1002
 	RESP_ERROR_AUTH   = 1003
+
+	RESP_ERROR_USER_NOT_FOUND = 1005
+	RESP_ERROR_PASSWORD_INVALID = 1006
 )
 
 // 返回成功
@@ -32,4 +35,14 @@ func NewParamError(opts ...interface{}) Response {
 // 权限错误
 func NewAuthError(opts ...interface{}) Response {
 	return newResponse(RESP_ERROR_AUTH, "Auth Error.", opts...)
+}
+
+// 用户不存在
+func NewUserNotFoundError(opts ...interface{}) Response {
+	return newResponse(RESP_ERROR_USER_NOT_FOUND, "The user is not found.", opts...)
+}
+
+// 账号密码错误
+func NewPasswordInvalidError(opts ...interface{}) Response {
+	return newResponse(RESP_ERROR_PASSWORD_INVALID, "The account or password is invalid.", opts...)
 }

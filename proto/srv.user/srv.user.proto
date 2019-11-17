@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package proto;
+
+service Login {
+	rpc LoginByUserName(LoginByUserNameReq) returns (LoginByUserNameResp) {};
+}
+
+message LoginByUserNameReq {
+	bytes username = 1;
+	bytes password = 2;
+}
+
+message LoginByUserNameResp {
+	enum errors {
+		ERROR_NIL  = 0; // 没有错误
+		ERROR_SYS  = 1; // 一般错误
+		ERROR_USER = 2; // 用户不存在
+		ERROR_PWD  = 3; // 密码错误
+	}
+
+	errors err_no  = 1;
+    string err_msg = 2;
+}
+

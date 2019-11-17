@@ -3,53 +3,23 @@ package helper
 import (
 	"bytes"
 	"crypto/tls"
-	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/kataras/iris"
+	"github.com/valyala/fasthttp"
 	"io/ioutil"
 	"net/http"
-	"strings"
 	"time"
 )
 
-
-// 获取iris的请求头
-func RequestHeader(ctx iris.Context) string {
-	var requestHeader string
-	for k, v := range ctx.Request().Header {
-		requestHeader += k + "=" + v[0] + ";"
+// 获取真实的Ip地址
+func RealIpAddr(ctx *fasthttp.RequestCtx) []byte {
+	if v := ctx.Request.Header.Peek("X-Forwarded-For"); len(v) > 0 {
+		return v
+	} else if v := ctx.Request.Header.Peek("X-Real-Ip"); len(v) > 0 {
+		return v
+	} else {
+		return []byte(ctx.RemoteAddr().String())
 	}
-	return requestHeader
-}
-
-// 获取iris的请求体
-func RequestBody(ctx iris.Context) string {
-	var requestBody string
-
-	// 如果不是json格式的，则不解析
-	if ctx.GetHeader("Content-Type") != "application/json" {
-		return requestBody
-	}
-
-	data, err := ioutil.ReadAll(ctx.Request().Body)
-	if err == nil {
-		requestBody = string(data)
-		ctx.Request().Body = ioutil.NopCloser(bytes.NewBuffer(data))
-	}
-
-	return requestBody
-}
-
-// 获取iris的get参数
-func RequestQueries(ctx iris.Context) string {
-	var requestQuery string
-	for k, v := range ctx.URLParams() {
-		requestQuery += k + "=" + v + "&"
-	}
-	requestQuery = strings.Trim(requestQuery, "&")
-
-	return requestQuery
 }
 
 // 协程共享的
