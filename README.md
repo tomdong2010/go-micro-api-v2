@@ -2,7 +2,7 @@
 
 ### 功能简介
 
-> 该demo使用iris框架做网关和api接口，使用go-micro做server微服务
+> 该demo使用fasthttp做网关和api接口，使用go-micro做server微服务
 >
 > 使用etcd或yaml文件做配置
 >
