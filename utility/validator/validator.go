@@ -6,7 +6,6 @@
 package validator
 
 import (
-	common "demo/conf"
 	"github.com/go-playground/locales/en"
 	"github.com/go-playground/universal-translator"
 	"gopkg.in/go-playground/validator.v9"
@@ -67,18 +66,18 @@ func validateShowCustomTag(fld reflect.StructField) string {
 
 // 用户名验证
 func validateUserName(f validator.FieldLevel) bool {
-	ok, _ := regexp.MatchString(common.REGEXP_USERNAME, f.Field().String())
+	ok, _ := regexp.MatchString(`^[0-9a-zA-Z_]{6, 20}$`, f.Field().String())
 	return ok
 }
 
 // 国家码验证
 func validateCc(f validator.FieldLevel) bool {
-	ok, _ := regexp.MatchString(common.REGEXP_CC, f.Field().String())
+	ok, _ := regexp.MatchString(`^[1-9][0-9]{1,2}$`, f.Field().String())
 	return ok
 }
 
 // 手机号码验证
 func validatePhone(f validator.FieldLevel) bool {
-	ok, _ := regexp.MatchString(common.REGEXP_PHONE, f.Field().String())
+	ok, _ := regexp.MatchString(`^[1356789][0-9]{10}$`, f.Field().String())
 	return ok
 }
