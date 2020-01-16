@@ -1,4 +1,4 @@
-module demo
+module github.com/tomdong2010/go-micro-api
 
 go 1.13
 
