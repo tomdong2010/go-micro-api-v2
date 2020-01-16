@@ -1,15 +1,15 @@
 package locker
 
 import (
-	"demo/utility/db"
 	"errors"
 	"github.com/gomodule/redigo/redis"
+	"github.com/tomdong2010/go-micro-api/utility/db"
 	"time"
 )
 
 type Locker struct {
-	Key    string
-	Error  error
+	Key   string
+	Error error
 }
 
 func Lock(key string) (locker *Locker) {

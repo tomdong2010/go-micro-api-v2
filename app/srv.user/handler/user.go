@@ -8,7 +8,7 @@ package handler
 import (
 	"bytes"
 	"context"
-	proto "demo/proto/srv.user"
+	proto "github.com/tomdong2010/go-micro-api/proto/srv.user"
 )
 
 type LoginServer struct{}
@@ -28,4 +28,3 @@ func (s *LoginServer) LoginByUserName(ctx context.Context, req *proto.LoginByUse
 
 	return nil
 }
-

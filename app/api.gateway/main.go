@@ -6,15 +6,15 @@
 package main
 
 import (
-	"demo/app/api.gateway/conf"
-	"demo/app/api.gateway/handler"
-	"demo/app/api.gateway/service"
-	common "demo/conf"
-	"demo/utility/db"
-	"demo/utility/helper"
-	"demo/utility/log"
 	"github.com/micro/cli"
 	"github.com/micro/go-micro"
+	"github.com/tomdong2010/go-micro-api/app/api.gateway/conf"
+	"github.com/tomdong2010/go-micro-api/app/api.gateway/handler"
+	"github.com/tomdong2010/go-micro-api/app/api.gateway/service"
+	common "github.com/tomdong2010/go-micro-api/conf"
+	"github.com/tomdong2010/go-micro-api/utility/db"
+	"github.com/tomdong2010/go-micro-api/utility/helper"
+	"github.com/tomdong2010/go-micro-api/utility/log"
 	"github.com/valyala/fasthttp"
 )
 

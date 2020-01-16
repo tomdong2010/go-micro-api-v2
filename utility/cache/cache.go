@@ -1,9 +1,9 @@
 package cache
 
 import (
-	"demo/utility/db"
 	"errors"
 	"github.com/gomodule/redigo/redis"
+	"github.com/tomdong2010/go-micro-api/utility/db"
 	"time"
 )
 

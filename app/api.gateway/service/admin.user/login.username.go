@@ -1,10 +1,10 @@
 package admin_user
 
 import (
-	"demo/app/api.gateway/service"
-	"demo/conf"
-	"demo/http"
-	"demo/proto/srv.user"
+	"github.com/tomdong2010/go-micro-api/app/api.gateway/service"
+	"github.com/tomdong2010/go-micro-api/conf"
+	"github.com/tomdong2010/go-micro-api/http"
+	"github.com/tomdong2010/go-micro-api/proto/srv.user"
 	"github.com/valyala/fasthttp"
 )
 

@@ -6,7 +6,7 @@
 package http
 
 import (
-	"demo/utility/helper"
+	"github.com/tomdong2010/go-micro-api/utility/helper"
 	"github.com/valyala/fasthttp"
 )
 
@@ -14,4 +14,3 @@ func ApiRet(ctx *fasthttp.RequestCtx, r Response) {
 	b, _ := helper.JsonEncode(r)
 	_, _ = ctx.Write(b)
 }
-

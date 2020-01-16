@@ -6,16 +6,16 @@
 package main
 
 import (
-	"demo/app/srv.user/conf"
-	"demo/app/srv.user/handler"
-	"demo/app/srv.user/service"
-	common "demo/conf"
-	"demo/proto/srv.user"
-	"demo/utility/db"
-	"demo/utility/helper"
-	"demo/utility/log"
 	"github.com/micro/cli"
 	"github.com/micro/go-micro"
+	"github.com/tomdong2010/go-micro-api/app/srv.user/conf"
+	"github.com/tomdong2010/go-micro-api/app/srv.user/handler"
+	"github.com/tomdong2010/go-micro-api/app/srv.user/service"
+	common "github.com/tomdong2010/go-micro-api/conf"
+	"github.com/tomdong2010/go-micro-api/proto/srv.user"
+	"github.com/tomdong2010/go-micro-api/utility/db"
+	"github.com/tomdong2010/go-micro-api/utility/helper"
+	"github.com/tomdong2010/go-micro-api/utility/log"
 )
 
 var appName = common.APP_SRV_USER

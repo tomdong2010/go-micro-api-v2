@@ -1,12 +1,12 @@
 package handler
 
 import (
-	admin_user "demo/app/api.gateway/handler/admin.user"
-	"demo/utility/helper"
-	"demo/utility/log"
 	"fmt"
 	"github.com/buaazp/fasthttprouter"
 	"github.com/google/uuid"
+	admin_user "github.com/tomdong2010/go-micro-api/app/api.gateway/handler/admin.user"
+	"github.com/tomdong2010/go-micro-api/utility/helper"
+	"github.com/tomdong2010/go-micro-api/utility/log"
 	"github.com/valyala/fasthttp"
 	"go.uber.org/zap"
 	"runtime"

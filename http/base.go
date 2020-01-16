@@ -1,9 +1,9 @@
 package http
 
 import (
-	"demo/utility/helper"
-	"demo/utility/log"
 	"fmt"
+	"github.com/tomdong2010/go-micro-api/utility/helper"
+	"github.com/tomdong2010/go-micro-api/utility/log"
 	"go.uber.org/zap"
 	"path/filepath"
 	"runtime"

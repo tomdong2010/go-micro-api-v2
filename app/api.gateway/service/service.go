@@ -2,11 +2,11 @@ package service
 
 import (
 	"context"
-	"demo/utility/helper"
 	"github.com/micro/cli"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/client"
 	"github.com/micro/go-micro/metadata"
+	"github.com/tomdong2010/go-micro-api/utility/helper"
 	"github.com/valyala/fasthttp"
 	"time"
 )

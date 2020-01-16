@@ -2,13 +2,13 @@ package service
 
 import (
 	"context"
-	"demo/utility/log"
 	"fmt"
 	"github.com/micro/cli"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/client"
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/server"
+	"github.com/tomdong2010/go-micro-api/utility/log"
 	"github.com/valyala/fasthttp"
 	"go.uber.org/zap"
 	"runtime"
@@ -19,7 +19,7 @@ import (
 var microService micro.Service
 
 // 初始化service
-func InitService(appName string, opts... micro.Option) {
+func InitService(appName string, opts ...micro.Option) {
 	microService = micro.NewService(
 		micro.Name(appName),
 		micro.WrapHandler(recoverHandler),
@@ -89,7 +89,7 @@ func accessHandler(fn server.HandlerFunc) server.HandlerFunc {
 			log.Info("access log.",
 				zap.String("ip", meta["Ip-Addr"]),
 				zap.String("method", "RPC"),
-				zap.String("path", meta["Micro-Service"] + "." + meta["Micro-Method"]),
+				zap.String("path", meta["Micro-Service"]+"."+meta["Micro-Method"]),
 				zap.String("reqId", meta["Request-Id"]),
 				zap.String("queries", ""),
 				zap.Any("reqBody", req.Body()),
