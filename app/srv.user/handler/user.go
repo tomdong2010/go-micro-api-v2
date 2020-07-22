@@ -8,7 +8,7 @@ package handler
 import (
 	"bytes"
 	"context"
-	proto "github.com/tomdong2010/go-micro-api/proto/srv.user"
+	proto "github.com/tomdong2010/go-micro-api-v2/proto/srv.user"
 )
 
 type LoginServer struct{}

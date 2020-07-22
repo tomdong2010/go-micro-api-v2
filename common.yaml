@@ -2,12 +2,12 @@ app:
   env: dev
 
 mysql:
-  dsn: root:root@tcp(192.168.243.128:3306)/godb?charset=utf8&parseTime=true&loc=Local
+  dsn: root:root@tcp(127.0.0.1:3306)/godb?charset=utf8&parseTime=true&loc=Local
   max_idle: 1
   max_open: 10
 
 redis:
-  addr: "192.168.243.128:6379"
+  addr: "127.0.0.1:6379"
   db: 1
   max_idle: 1
   max_open: 10

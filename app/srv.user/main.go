@@ -6,16 +6,16 @@
 package main
 
 import (
-	"github.com/micro/cli"
-	"github.com/micro/go-micro"
-	"github.com/tomdong2010/go-micro-api/app/srv.user/conf"
-	"github.com/tomdong2010/go-micro-api/app/srv.user/handler"
-	"github.com/tomdong2010/go-micro-api/app/srv.user/service"
-	common "github.com/tomdong2010/go-micro-api/conf"
-	"github.com/tomdong2010/go-micro-api/proto/srv.user"
-	"github.com/tomdong2010/go-micro-api/utility/db"
-	"github.com/tomdong2010/go-micro-api/utility/helper"
-	"github.com/tomdong2010/go-micro-api/utility/log"
+	"github.com/micro/cli/v2"
+	"github.com/micro/go-micro/v2"
+	"github.com/tomdong2010/go-micro-api-v2/app/srv.user/conf"
+	"github.com/tomdong2010/go-micro-api-v2/app/srv.user/handler"
+	"github.com/tomdong2010/go-micro-api-v2/app/srv.user/service"
+	common "github.com/tomdong2010/go-micro-api-v2/conf"
+	"github.com/tomdong2010/go-micro-api-v2/proto/srv.user"
+	"github.com/tomdong2010/go-micro-api-v2/utility/db"
+	"github.com/tomdong2010/go-micro-api-v2/utility/helper"
+	"github.com/tomdong2010/go-micro-api-v2/utility/log"
 )
 
 var appName = common.APP_SRV_USER
@@ -29,7 +29,7 @@ func main() {
 	helper.CheckErr("ServerRun", service.Run(), true)
 }
 
-func initialize(ctx *cli.Context) {
+func initialize(ctx *cli.Context) error {
 	// 初始化公共配置文件
 	helper.CheckErr("InitCommonConfig", common.InitConfig(ctx.String("etcd_addr")), true)
 
@@ -44,6 +44,8 @@ func initialize(ctx *cli.Context) {
 
 	// 启动redis
 	helper.CheckErr("InitRedis", db.InitRedis(common.GetRedisConfig()), true)
+
+	return nil
 }
 
 func uninit() {

@@ -15,10 +15,10 @@ const (
 
 // 服务名称
 const (
-	APP_CONF_PREFIX = "go-micro-api/" // 配置文件前缀
+	APP_CONF_PREFIX = "go-micro-api-v2/" // 配置文件前缀
 
-	APP_API_GATEWAY = "go-micro-api.api.gateway" // 用户网关app名称
-	APP_SRV_USER    = "go-micro-api.srv.user"    // 用户服务app名称
+	APP_API_GATEWAY = "go-micro-api-v2.api.gateway" // 用户网关app名称
+	APP_SRV_USER    = "go-micro-api-v2.srv.user"    // 用户服务app名称
 )
 
 // redis相关的key

@@ -3,7 +3,7 @@ package locker
 import (
 	"errors"
 	"github.com/gomodule/redigo/redis"
-	"github.com/tomdong2010/go-micro-api/utility/db"
+	"github.com/tomdong2010/go-micro-api-v2/utility/db"
 	"time"
 )
 

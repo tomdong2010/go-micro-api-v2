@@ -6,8 +6,8 @@
 package admin_user
 
 import (
-	"github.com/tomdong2010/go-micro-api/app/api.gateway/service/admin.user"
-	"github.com/tomdong2010/go-micro-api/http"
+	"github.com/tomdong2010/go-micro-api-v2/app/api.gateway/service/admin.user"
+	"github.com/tomdong2010/go-micro-api-v2/http"
 	"github.com/valyala/fasthttp"
 )
 

@@ -2,11 +2,11 @@ package service
 
 import (
 	"context"
-	"github.com/micro/cli"
-	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/client"
-	"github.com/micro/go-micro/metadata"
-	"github.com/tomdong2010/go-micro-api/utility/helper"
+	"github.com/micro/cli/v2"
+	"github.com/micro/go-micro/v2"
+	"github.com/micro/go-micro/v2/client"
+	"github.com/micro/go-micro/v2/metadata"
+	"github.com/tomdong2010/go-micro-api-v2/utility/helper"
 	"github.com/valyala/fasthttp"
 	"time"
 )
@@ -19,10 +19,10 @@ func InitService(appName string, opts ...micro.Option) {
 		micro.Name(appName),
 		micro.RegisterTTL(time.Second*30),
 		micro.RegisterInterval(time.Second*10),
-		micro.Flags(cli.StringFlag{
-			Name:   "etcd_addr",
-			EnvVar: "ETCD_ADDR",
-			Usage:  "This is etcd config address.",
+		micro.Flags(&cli.StringFlag{
+			Name:    "etcd_addr",
+			EnvVars: []string{"ETCD_ADDR"},
+			Usage:   "This is etcd config address.",
 		}),
 	)
 

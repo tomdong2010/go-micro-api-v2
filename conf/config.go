@@ -1,9 +1,9 @@
 package conf
 
 import (
-	. "github.com/micro/go-micro/config"
-	"github.com/micro/go-micro/config/source/etcd"
-	"github.com/micro/go-micro/config/source/file"
+	. "github.com/micro/go-micro/v2/config"
+	"github.com/micro/go-micro/v2/config/source/etcd"
+	"github.com/micro/go-micro/v2/config/source/file"
 	"strings"
 	"time"
 )
@@ -18,15 +18,15 @@ type config struct {
 // 初始化公共配置
 func InitConfig(etcd_addr string) error {
 	var err error
-
-	conf = &config{NewConfig()}
+	con, _ := NewConfig()
+	conf = &config{con}
 
 	if etcd_addr != "" {
 		err = conf.MicroConf.Load(etcd.NewSource(
 			etcd.WithAddress(strings.Split(etcd_addr, ",")...),
 			etcd.WithPrefix(APP_CONF_PREFIX+"/common"),
 			etcd.StripPrefix(true),
-			etcd.WithDialTimeout(10 * time.Second),
+			etcd.WithDialTimeout(10*time.Second),
 		))
 	} else {
 		err = conf.MicroConf.Load(file.NewSource(file.WithPath("common.yaml")))

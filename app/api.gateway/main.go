@@ -6,15 +6,15 @@
 package main
 
 import (
-	"github.com/micro/cli"
-	"github.com/micro/go-micro"
-	"github.com/tomdong2010/go-micro-api/app/api.gateway/conf"
-	"github.com/tomdong2010/go-micro-api/app/api.gateway/handler"
-	"github.com/tomdong2010/go-micro-api/app/api.gateway/service"
-	common "github.com/tomdong2010/go-micro-api/conf"
-	"github.com/tomdong2010/go-micro-api/utility/db"
-	"github.com/tomdong2010/go-micro-api/utility/helper"
-	"github.com/tomdong2010/go-micro-api/utility/log"
+	"github.com/micro/cli/v2"
+	"github.com/micro/go-micro/v2"
+	"github.com/tomdong2010/go-micro-api-v2/app/api.gateway/conf"
+	"github.com/tomdong2010/go-micro-api-v2/app/api.gateway/handler"
+	"github.com/tomdong2010/go-micro-api-v2/app/api.gateway/service"
+	common "github.com/tomdong2010/go-micro-api-v2/conf"
+	"github.com/tomdong2010/go-micro-api-v2/utility/db"
+	"github.com/tomdong2010/go-micro-api-v2/utility/helper"
+	"github.com/tomdong2010/go-micro-api-v2/utility/log"
 	"github.com/valyala/fasthttp"
 )
 
@@ -29,10 +29,10 @@ func main() {
 	helper.CheckErr("FastHttp Start", fasthttp.ListenAndServe(serverAddress, h), true)
 }
 
-func initialize(ctx *cli.Context) {
+func initialize(ctx *cli.Context) error {
+
 	// 初始化公共配置文件
 	helper.CheckErr("InitCommonConfig", common.InitConfig(ctx.String("etcd_addr")), true)
-
 	// 初始化app配置文件
 	helper.CheckErr("InitAppConfig", conf.InitConfig(ctx.String("etcd_addr"), appName), true)
 
@@ -49,6 +49,7 @@ func initialize(ctx *cli.Context) {
 
 	// 启动redis
 	helper.CheckErr("InitRedis", db.InitRedis(common.GetRedisConfig()), true)
+	return nil
 }
 
 func uninit() {
